@@ -4,19 +4,20 @@ def setup_rubocop
   file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
   # file ".rubocop.yml", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml", &:read)
   git add: ".rubocop.yml"
-  git commit: "-m 'rubocop'"
+  git commit: "-q -m 'rubocop'"
 end
 
 def setup_rspec
   generate("rspec:install")
   git add: ".rspec spec"
-  git commit: "-m 'rspec'"
+  git commit: "-q -m 'rspec'"
 end
 
 def setup_simple_form
+  run("bundle add simple_form")
   generate("simple_form:install")
   git add: "config/initializers/simple_form.rb config/locales/simple_form.en.yml lib/templates"
-  git commit: "-m 'simple_form'"
+  git commit: "-q -m 'simple_form'"
 end
 
 def setup_user
@@ -29,20 +30,20 @@ end
 def setup_cancancan
   generate("cancan:ability")
   git add: "app/models/ability.rb"
-  git commit: "-m 'cancancan'"
+  git commit: "-q -m 'cancancan'"
 end
 
 def setup_delayed_job
   generate("delayed_job:active_record")
   git add: "bin/delayed_job db/migrate db/schema.rb"
-  git commit: "-m 'active_record'"
+  git commit: "-q -m 'active_record'"
   rails_command "db:migrate"
 end
 
 def setup_whenever
   run("wheneverize")
   git add: "config/schedule.rb"
-  git commit: "-m 'whenever'"
+  git commit: "-q -m 'whenever'"
 end
 
 def setup_devise
@@ -51,16 +52,23 @@ def setup_devise
   generate(:devise, "User")
   rails_command "db:migrate"
   git add: "."
-  git commit: "-m 'devise'"
+  git commit: "-q -m 'devise'"
+end
+
+def clean_gemfile
+  run("rm Gemfile")
+  file "Gemfile", open("../rails_templates/Gemfile", &:read)
+  # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/Gemfile", &:read)
+  git add: "Gemfile"
+  git commit: "-q -m 'clean_gemfile'"
 end
 
 after_bundle do
-  rails_command "db:drop"
-  rails_command "db:create"
+  # rails_command "db:drop"
+  # rails_command "db:create"
 
-  # git :init
   git add: "."
-  git commit: "-am 'Initial commit'"
+  git commit: "-q -am 'Initial commit'"
 
   setup_rspec
   setup_simple_form
@@ -69,7 +77,9 @@ after_bundle do
   setup_delayed_job
   setup_whenever
   setup_devise
+
   setup_rubocop
+  clean_gemfile
 
   # pp run("rubocop -A")
 end
@@ -83,7 +93,6 @@ gem "faker"
 gem "faraday"
 # gem "jb"
 # gem "rollbar"
-gem "simple_form"
 gem "timecop"
 gem "whenever", require: false
 
