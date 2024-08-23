@@ -11,6 +11,9 @@ AllCops:
     - config/puma.rb
     - db/schema.rb
 
+Layout/LineLength:
+  Max: 135
+
 Style/BlockComments:
   Exclude:
     - spec/spec_helper.rb
