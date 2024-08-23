@@ -1,1 +1,22 @@
 require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - config/puma.rb
+    - db/schema.rb
+
+Style/BlockComments:
+  Exclude:
+    - spec/spec_helper.rb
+
+Style/Documentation:
+  Exclude:
+    - app/helpers/application_helper.rb
+    - app/mailers/application_mailer.rb
+    - app/models/application_record.rb
+    - config/application.rb
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
