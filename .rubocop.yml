@@ -9,6 +9,7 @@ AllCops:
   Exclude:
     - bin/bundle
     - config/puma.rb
+    - config/initializers/devise.rb
     - db/schema.rb
 
 Layout/LineLength:
@@ -18,16 +19,16 @@ Metrics/BlockLength:
   Exclude:
     - config/environments/*
 
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+
 Style/BlockComments:
   Exclude:
     - spec/spec_helper.rb
 
 Style/Documentation:
-  Exclude:
-    - app/helpers/application_helper.rb
-    - app/mailers/application_mailer.rb
-    - app/models/application_record.rb
-    - config/application.rb
+  Enabled: false
 
 Style/StringLiterals:
   Enabled: true

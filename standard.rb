@@ -35,9 +35,9 @@ end
 
 def setup_delayed_job
   generate("delayed_job:active_record")
-  git add: "bin/delayed_job db/migrate db/schema.rb"
-  git commit: "-q -m 'active_record'"
   rails_command "db:migrate"
+  git add: "bin/delayed_job db/migrate db/schema.rb"
+  git commit: "-m 'delayed_job'"
 end
 
 def setup_whenever
@@ -64,8 +64,8 @@ def clean_gemfile
 end
 
 after_bundle do
-  # rails_command "db:drop"
-  # rails_command "db:create"
+  rails_command "db:drop"
+  rails_command "db:create"
 
   git add: "."
   git commit: "-q -am 'Initial commit'"
@@ -91,7 +91,7 @@ gem "delayed_job_active_record"
 gem "devise"
 gem "faker"
 gem "faraday"
-# gem "jb"
+gem "jb"
 # gem "rollbar"
 gem "timecop"
 gem "whenever", require: false
