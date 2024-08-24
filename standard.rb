@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 def setup_rubocop
-  file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
-  # file ".rubocop.yml", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml", &:read)
+  # file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
+  file ".rubocop.yml", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml", &:read)
   git add: ".rubocop.yml"
   git commit: "-q -m 'rubocop'"
 end
