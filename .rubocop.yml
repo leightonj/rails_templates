@@ -13,7 +13,7 @@ AllCops:
     - db/schema.rb
 
 Layout/LineLength:
-  Max: 135
+  Max: 145
 
 Metrics/BlockLength:
   Exclude:
@@ -33,3 +33,6 @@ Style/Documentation:
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
+
+RSpec/MultipleExpectations:
+  Enabled: false

@@ -63,6 +63,25 @@ def clean_gemfile
   git commit: "-q -m 'clean_gemfile'"
 end
 
+def setup_templates
+  dir = "lib/templates/rails/scaffold_controller"
+  FileUtils.mkdir_p(dir)
+  fname = "#{dir}/controller.rb.tt"
+  file fname, open("../rails_templates/#{fname}", &:read)
+  # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/#{fname}", &:read)
+  git add: fname
+  git commit: "-q -m 'updated templates'"
+end
+
+def setup_locale
+  fname = "config/locales/en.yml"
+  run("rm #{fname}")
+  file fname, open("../rails_templates/#{fname}", &:read)
+  # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/#{fname}", &:read)
+  git add: fname
+  git commit: "-q -m 'updated locale'"
+end
+
 after_bundle do
   rails_command "db:drop"
   rails_command "db:create"
@@ -72,6 +91,8 @@ after_bundle do
 
   setup_rspec
   setup_simple_form
+  setup_templates
+  setup_locale
   setup_user
   setup_cancancan
   setup_delayed_job
@@ -93,6 +114,7 @@ gem "faker"
 gem "faraday"
 gem "jb"
 # gem "rollbar"
+gem "slim-rails"
 gem "timecop"
 gem "whenever", require: false
 
