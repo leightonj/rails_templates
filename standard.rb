@@ -53,17 +53,16 @@ def setup_devise
   generate(:devise, "User")
   rails_command "db:migrate"
 
-  fname = "db/seeds.rb"
-  file fname, open("../rails_templates/#{fname}", &:read)
+  rm_and_copy_file("db/seeds.rb")
   rails_command "db:seed"
 
   git add: "."
-  git commit: "-q -m 'devise'"
+  git commit: "-q -m 'devise and seeds'"
 end
 
 def clean_gemfile
   run("rm Gemfile")
-  file "Gemfile", open("../rails_templates/Gemfile", &:read)
+  file "Gemfile", open("../rails_templates/Gemfile_clean", &:read)
   # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/Gemfile", &:read)
   git add: "Gemfile"
   git commit: "-q -m 'clean_gemfile'"
@@ -81,15 +80,21 @@ end
 
 def setup_locale
   fname = "config/locales/en.yml"
-  run("rm #{fname}")
-  file fname, open("../rails_templates/#{fname}", &:read)
-  # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/#{fname}", &:read)
+  rm_and_copy_file(fname)
   git add: fname
   git commit: "-q -m 'updated locale'"
 end
 
 def copy_concerns
   FileUtils.cp_r(Dir["../rails_templates/app/models/concerns/*"], "app/models/concerns")
+  git add: "app/models/concerns"
+  git commit: "-q -m 'added concerns'"
+end
+
+def rm_and_copy_file(fname)
+  run("rm #{fname}")
+  file fname, open("../rails_templates/#{fname}", &:read)
+  # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/#{fname}", &:read)
 end
 
 after_bundle do
@@ -114,6 +119,7 @@ after_bundle do
   # clean_gemfile
 
   # pp run("rubocop -A")
+  # https://getbootstrap.com/
 end
 
 gem "aasm"

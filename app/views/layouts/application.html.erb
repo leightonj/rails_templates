@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog</title>
+    <title>ProjectApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -16,11 +17,8 @@
   </head>
 
   <body>
-    <%= render "application/nav" %>
-    <div class="container my-5">
-      <div class="col-lg-8 px-0">
-        <%= yield %>
-      </div>
+    <div class="col-lg-8 mx-auto p-4 py-md-5">
+      <%= yield %>
     </div>
   </body>
 </html>
