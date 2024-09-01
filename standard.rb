@@ -2,7 +2,7 @@
 
 def setup_rubocop
   file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
-  uri = "https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml"
+  # uri = "https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml"
   # file ".rubocop.yml", URI.open(uri, &:read)
   git add: ".rubocop.yml"
   git commit: "-q -m 'rubocop'"
@@ -91,8 +91,24 @@ def copy_concerns
   git commit: "-q -m 'added concerns'"
 end
 
+def setup_layout
+  rm_and_copy_file("app/views/layouts/application.html.erb")
+  copy_file("app/assets/stylesheets/main.css")
+  FileUtils.mkdir_p("app/views/application/")
+  copy_file("app/views/application/_card.html.erb")
+  copy_file("app/views/application/_footer.html.erb")
+  copy_file("app/views/application/_header.html.erb")
+
+  git add: "app/views/layouts/application.html.erb app/assets/stylesheets/main.css app/views/application"
+  git commit: "-q -m 'added a layout'"
+end
+
 def rm_and_copy_file(fname)
   run("rm #{fname}")
+  copy_file(fname)
+end
+
+def copy_file(fname)
   file fname, open("../rails_templates/#{fname}", &:read)
   # file "Gemfile", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/#{fname}", &:read)
 end
@@ -114,6 +130,7 @@ after_bundle do
   setup_whenever
   setup_devise
   copy_concerns
+  setup_layout
 
   setup_rubocop
   # clean_gemfile

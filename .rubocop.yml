@@ -13,7 +13,7 @@ AllCops:
     - db/schema.rb
 
 Layout/LineLength:
-  Max: 120
+  Max: 135
 
 Metrics/BlockLength:
   Exclude:
@@ -23,6 +23,12 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - db/migrate/*
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
 
 Style/BlockComments:
   Exclude:
@@ -34,6 +40,3 @@ Style/Documentation:
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
-
-RSpec/MultipleExpectations:
-  Enabled: false

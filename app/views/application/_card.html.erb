@@ -1,0 +1,7 @@
+<div class="card">
+  <% if defined?(name) %><a name="<%= name %>"></a><% end %>
+  <% if defined?(header) %><div class="card-header"><%= header %></div><% end %>
+  <div class="card-body">
+    <%= yield %>
+  </div>
+</div>
