@@ -11,13 +11,18 @@ gem "delayed_job_active_record"
 gem "devise"
 gem "faker"
 gem "faraday"
+gem "importmap-rails"
 gem "jb"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "rails", "~> 7.1.4"
 gem "simple_form", "~> 5.3"
+gem "slim-rails"
 gem "sprockets-rails"
+gem "stimulus-rails"
 gem "timecop"
+gem "turbo-rails"
+gem "view_component"
 gem "whenever", require: false
 
 # Use Redis adapter to run Action Cable in production

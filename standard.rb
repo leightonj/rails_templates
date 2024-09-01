@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 def setup_rubocop
-  # file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
-  file ".rubocop.yml", URI.open("https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml", &:read)
+  file ".rubocop.yml", open("../rails_templates/.rubocop.yml", &:read)
+  uri = "https://raw.githubusercontent.com/leightonj/rails_templates/main/.rubocop.yml"
+  # file ".rubocop.yml", URI.open(uri, &:read)
   git add: ".rubocop.yml"
   git commit: "-q -m 'rubocop'"
 end
@@ -15,7 +16,7 @@ end
 
 def setup_simple_form
   run("bundle add simple_form")
-  generate("simple_form:install")
+  generate("simple_form:install --bootstrap")
   git add: "config/initializers/simple_form.rb config/locales/simple_form.en.yml lib/templates"
   git commit: "-q -m 'simple_form'"
 end
@@ -51,6 +52,11 @@ def setup_devise
   generate("devise:views")
   generate(:devise, "User")
   rails_command "db:migrate"
+
+  fname = "db/seeds.rb"
+  file fname, open("../rails_templates/#{fname}", &:read)
+  rails_command "db:seed"
+
   git add: "."
   git commit: "-q -m 'devise'"
 end
@@ -82,6 +88,10 @@ def setup_locale
   git commit: "-q -m 'updated locale'"
 end
 
+def copy_concerns
+  FileUtils.cp_r(Dir["../rails_templates/app/models/concerns/*"], "app/models/concerns")
+end
+
 after_bundle do
   rails_command "db:drop"
   rails_command "db:create"
@@ -98,9 +108,10 @@ after_bundle do
   setup_delayed_job
   setup_whenever
   setup_devise
+  copy_concerns
 
   setup_rubocop
-  clean_gemfile
+  # clean_gemfile
 
   # pp run("rubocop -A")
 end
@@ -114,8 +125,9 @@ gem "faker"
 gem "faraday"
 gem "jb"
 # gem "rollbar"
-gem "slim-rails"
+# gem "slim-rails"
 gem "timecop"
+gem "view_component"
 gem "whenever", require: false
 
 gem_group :development, :test do

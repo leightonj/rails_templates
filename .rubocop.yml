@@ -13,11 +13,12 @@ AllCops:
     - db/schema.rb
 
 Layout/LineLength:
-  Max: 145
+  Max: 120
 
 Metrics/BlockLength:
   Exclude:
     - config/environments/*
+    - config/initializers/simple_form_bootstrap.rb
 
 Metrics/MethodLength:
   Exclude:
